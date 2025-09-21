@@ -1,0 +1,14 @@
+# Ignore build outputs
+bin/
+obj/
+*.user
+*.suo
+*.vs/
+
+# Ignore secrets
+appsettings.json
+
+# Ignore IDE stuff
+.vscode/
+*.swp
+*.tmp
