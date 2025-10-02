@@ -1,9 +1,13 @@
-﻿using System.Net.Http;
+﻿using Microsoft.Extensions.Configuration;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using System.Xml;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 public static class LlmHelper
 {
@@ -31,7 +35,7 @@ public static class LlmHelper
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        return config["OpenAi:ApiKey"];  // 👈 store under "OpenRouter"
+        return config["OpenAI:ApiKey"]; 
     }
 
     public static async Task<string> GetXPath(string html, string hint)
@@ -43,8 +47,10 @@ public static class LlmHelper
             model = "openai/gpt-oss-20b:free",
             messages = new[]
             {
-                new { role = "system", content = "You must output ONLY a valid XPath expression. No comments, no explanation, no extra text." },
-                new { role = "user", content = $"Given this HTML:\n{html}\nAnd the hint: {hint}\nReturn ONLY the best relative XPath. No explanation." }
+                new { role = "system", content = "You must output ONLY a valid XPath expression. No comments, no explanation, no extra text,No Extra add one before and after the Xpath's" },
+                new { role = "system", content = "You are an assistant that generates only accurate relative XPath expressions for Selenium. " + "Never include ``` markers. " +"Always ensure buttons with text are matched using `//button[.//span[normalize-space()='TEXT']]`. " + "For links, use `//a[.//span[normalize-space()='TEXT']]`. " +"Return ONLY the XPath string, nothing else." },
+                new { role = "system", content ="You must output ONLY one valid relative XPath. Always prefer unique attributes: id, name, data - *, placeholder, type, aria - label.If targeting buttons / links with visible text, use contains(normalize-space(.), 'TEXT'). Never return overly generic XPaths like //a[.//span] or //* without filters. Output ONLY the XPath, no explanations." },
+                new { role = "user", content = $"Given this HTML:\n{html}\nAnd the hint: {hint}\nReturn ONLY the best accurate relative XPath. No explanation." }
             }
         };
 

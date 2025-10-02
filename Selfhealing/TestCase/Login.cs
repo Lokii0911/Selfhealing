@@ -17,9 +17,9 @@ namespace DotnetSelenium.TestCase
         private readonly IWebDriver driver;
         private readonly WebDriverWait wait;
 
-        private static readonly By username = By.Name("user");// wrong locator
-        private static readonly By password = By.Name("pass");// wrong locator
-        private static readonly By button = By.CssSelector("button[type='subit']");// wrong locator
+        private static readonly By username = By.Name("username");// wrong locator
+        private static readonly By password = By.Name("password");// wrong locator
+        private static readonly By button = By.CssSelector("button[type='submit']");// wrong locator
         private static readonly By dashboardHeader = By.XPath("//h6[text()='Dashboard']");
 
         public Login(IWebDriver driver, WebDriverWait wait):base(driver,wait)

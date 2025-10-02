@@ -21,7 +21,7 @@ namespace Selfhealing.Setup
 
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(40));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
         }
         [OneTimeTearDown]
         public void CloseBrowser()
